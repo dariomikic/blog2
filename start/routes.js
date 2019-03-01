@@ -18,6 +18,15 @@ const Route = use('Route')
 
 Route.on('/').render('Home')
 
+Route.post('/singup', 'UserController.create').validator('CreateUser')
+
+Route.post('/login', 'UserController.Login').validator('LoginUser')
+
+Route.get('logout', async ({auth, response})=> {
+  await auth.logout();
+  return response.redirect('/')
+})
+
 Route.get('/posts', 'PostController.index')
 
 Route.get('/posts/add', 'PostController.add')
@@ -28,7 +37,7 @@ Route.get('/posts/:id', 'PostController.details')
 
 Route.post('/posts', 'PostController.store')
 
-Route.put('/posts/:id', 'PostController.update')
+Route.put('/posts/:id', 'PostController.update').validator('CreateUser')
 
 Route.delete('/posts/:id', 'PostController.destroy')
 /*
